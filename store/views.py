@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Category, Product, PaystackPayment
+from django.shortcuts import render
+from core.models import Payment
+from .models import Category, Product
 from django.contrib.auth.models import User
-from .forms import PaymentForm
-from django.contrib import messages
 from django.conf import settings
 
 
@@ -16,6 +15,29 @@ def homepage(request):
     return render(request, "store/index.html", context)
 
 
+def detailpage(request, id):
+    product = Product.objects.get(id=id)
+    context = {"product": product}
+    return render(request, "store/single-product.html", context)
+
+
+def store_initiate_payment(request, id):
+    product = Product.objects.get(id=id)
+    email = request.user
+    amount = product.price
+    if request.method == 'POST':
+        payment = Payment.objects.create(email=email, amount=amount)
+        context = {
+            "payment": payment,
+            "product": product,
+            "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY
+        }
+        return render(request, "make_payment.html", context)
+    context = {
+        "product": product
+    }
+    return render(request, "store/initiate_payment.html", context)
+    
 # from paystackapi.transaction import Transaction
 
 # def verify_payment(ref):
@@ -34,36 +56,3 @@ def homepage(request):
 #     # Handle failed payment verification
 #     pass
 
-
-def initiate_payment(request):
-    if request.method == "POST":
-        payment_form = PaymentForm(request.POST)
-        if payment_form.is_valid():
-            payment = payment_form.save()
-            paystack_public_key = settings.PAYSTACK_PUBLIC_KEY
-            return render(
-                request,
-                'store/make_payment.html',
-                {
-                    'payment': payment,
-                    'paystack_public_key': paystack_public_key,
-                }
-            )
-    else:
-        payment_form = PaymentForm()
-    
-    return render(
-        request,
-        "store/initiate_payment.html",
-        {"payment_form": payment_form}
-    )
-
-
-def verify_payment(request, ref):
-    payment = PaystackPayment.objects.get(reference=ref)
-    verified = payment.verify_payment()
-    
-    message = "Verification Successful" if verified else "Verification Failed"
-    messages.add_message(request, messages.SUCCESS if verified else messages.ERROR, message)
-    
-    return redirect("initiate_payment")

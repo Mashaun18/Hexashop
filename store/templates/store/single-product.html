@@ -1,7 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,15 +12,15 @@
 
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'store/assets/css/bootstrap.min.css' %}">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'store/assets/css/font-awesome.css' %}">
 
-    <link rel="stylesheet" href="assets/css/templatemo-hexashop.css">
+    <link rel="stylesheet" href="{% static 'store/assets/css/templatemo-hexashop.css' %}">
 
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
+    <link rel="stylesheet" href="{% static 'store/assets/css/owl-carousel.css' %}">
 
-    <link rel="stylesheet" href="assets/css/lightbox.css">
+    <link rel="stylesheet" href="{% static 'store/assets/css/lightbox.css' %}">
 <!--
 
 TemplateMo 571 Hexashop
@@ -52,7 +51,7 @@ https://templatemo.com/tm-571-hexashop
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
                         <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png">
+                            <img src="{% static 'store/assets/images/logo.png' %}">
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
@@ -109,19 +108,20 @@ https://templatemo.com/tm-571-hexashop
 
 
     <!-- ***** Product Area Starts ***** -->
+    
     <section class="section" id="product">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                 <div class="left-images">
-                    <img src="assets/images/single-product-01.jpg" alt="">
-                    <img src="assets/images/single-product-02.jpg" alt="">
+                    <img src="{{ product.image.url }}" alt="">
+                    <!-- <img src="{% static 'store/assets/images/single-product-02.jpg' %}" alt=""> -->
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="right-content">
-                    <h4>New Green Jacket</h4>
-                    <span class="price">$75.00</span>
+                    <h4>{{product.name}}</h4>
+                    <span class="price">₦{{ product.price }}</span>
                     <ul class="stars">
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
@@ -129,11 +129,11 @@ https://templatemo.com/tm-571-hexashop
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                     </ul>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.</span>
-                    <div class="quote">
+                    <span>{{ product.description }}</span>
+                    <!-- <div class="quote">
                         <i class="fa fa-quote-left"></i><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
-                    </div>
-                    <div class="quantity-content">
+                    </div> -->
+                    <!-- <div class="quantity-content">
                         <div class="left-content">
                             <h6>No. of Orders</h6>
                         </div>
@@ -142,10 +142,10 @@ https://templatemo.com/tm-571-hexashop
                                 <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="total">
-                        <h4>Total: $210.00</h4>
-                        <div class="main-border-button"><a href="#">Add To Cart</a></div>
+                        <h4>₦{{ product.price }}</h4>
+                        <div class="main-border-button"><a href="{% url 'store-initiate-payment' product.id %}">Make Payment</a></div>
                     </div>
                 </div>
             </div>
@@ -161,7 +161,7 @@ https://templatemo.com/tm-571-hexashop
                 <div class="col-lg-3">
                     <div class="first-item">
                         <div class="logo">
-                            <img src="assets/images/white-logo.png" alt="hexashop ecommerce templatemo">
+                            <img src="{% static 'store/assets/images/white-logo.png' %}" alt="hexashop ecommerce templatemo">
                         </div>
                         <ul>
                             <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
@@ -215,27 +215,27 @@ https://templatemo.com/tm-571-hexashop
     
 
     <!-- jQuery -->
-    <script src="assets/js/jquery-2.1.0.min.js"></script>
+    <script src="{% static 'store/assets/js/jquery-2.1.0.min.js' %}"></script>
 
     <!-- Bootstrap -->
-    <script src="assets/js/popper.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="{% static 'store/assets/js/popper.js' %}"></script>
+    <script src="{% static 'store/assets/js/bootstrap.min.js' %}"></script>
 
     <!-- Plugins -->
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/accordions.js"></script>
-    <script src="assets/js/datepicker.js"></script>
-    <script src="assets/js/scrollreveal.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imgfix.min.js"></script> 
-    <script src="assets/js/slick.js"></script> 
-    <script src="assets/js/lightbox.js"></script> 
-    <script src="assets/js/isotope.js"></script> 
-    <script src="assets/js/quantity.js"></script>
+    <script src="{% static 'store/assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'store/assets/js/accordions.js' %}"></script>
+    <script src="{% static 'store/assets/js/datepicker.js' %}"></script>
+    <script src="{% static 'store/assets/js/scrollreveal.min.js' %}"></script>
+    <script src="{% static 'store/assets/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'store/assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'store/assets/js/imgfix.min.js' %}"></script> 
+    <script src="{% static 'store/assets/js/slick.js' %}"></script> 
+    <script src="{% static 'store/assets/js/lightbox.js' %}"></script> 
+    <script src="{% static 'store/assets/js/isotope.js' %}"></script> 
+    <script src="{% static 'store/assets/js/quantity.js' %}"></script>
     
     <!-- Global Init -->
-    <script src="assets/js/custom.js"></script>
+    <script src="{% static 'store/assets/js/custom.js' %}"></script>
 
     <script>
 
@@ -252,6 +252,17 @@ https://templatemo.com/tm-571-hexashop
                 
             });
         });
+
+        
+    document.addEventListener('DOMContentLoaded', function() {
+        var paymentButton = document.querySelector('input[type="submit"][value="submit"]');
+        paymentButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Payment integration logic goes here
+            console.log('Payment button clicked');
+        });
+    });
+    </script>
 
     </script>
 
