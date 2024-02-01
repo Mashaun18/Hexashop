@@ -3,12 +3,29 @@ from core.models import Payment
 from .models import Category, Product
 from django.contrib.auth.models import User
 from django.conf import settings
+from .serializers import ProductSerializer
+from rest_framework.generics import ListCreateAPIView
+from django.core.cache import cache
+from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
+
+class ApiHomePage(ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
 def homepage(request):
-    all_categories = Category.objects.all()
-    male_products = Product.objects.filter(category=2)
-    female_products = Product.objects.filter(category=1)
+    all_categories = cache.get("all_categories")
+    male_products = cache.get("male_products")
+    female_products = cache.get("female_products")
+    if all_categories is None or male_products is None or female_products is None:
+        all_categories = Category.objects.all()
+        male_products = Product.objects.filter(category=2)
+        female_products = Product.objects.filter(category=1)
+        cache.set("all_categories", all_categories)
+        cache.set("male_products", male_products)
+        cache.set("female_products", female_products)
     context = {"all_categories": all_categories,
                "male_products": male_products,
                "female_products": female_products}
